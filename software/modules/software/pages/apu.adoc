@@ -1,0 +1,7 @@
+= APU / Linux
+
+In this section we show you how to implement, build and run Linux and its
+applications on APU.
+
+SC-OBC Module V1 uses Yocto Project. Since its features span a wide range, each
+topic is described separately.

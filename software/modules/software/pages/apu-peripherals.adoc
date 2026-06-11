@@ -1,0 +1,208 @@
+= Accessing Peripherals
+
+== Build the dev image
+
+To try out more peripherals, you can build the `sc-image-dev` image.
+
+In `kas`, you can override the target image by creating a file(ex: `override.local.yml`).
+
+----
+header:
+  version: 19
+
+target:
+  - sc-image-dev
+----
+
+Then, build the image with the override file.
+
+----
+$ kas build kas/scobc-v1.yml:override.local.yml
+...
+$ ls -F1 build/tmp/deploy/images/versal-scobc-v1-ve2302i-sdt-full/*.wic
+build/tmp/deploy/images/versal-scobc-v1-ve2302i-sdt-full/sc-image-dev-versal-scobc-v1-ve2302i-sdt-full-yyyyMMddHHmmss.wic
+build/tmp/deploy/images/versal-scobc-v1-ve2302i-sdt-full/sc-image-dev-versal-scobc-v1-ve2302i-sdt-full.wic@
+----
+
+== Ethernet
+
+You can use `ip` command to assign an IP address. Once the device is
+up, you can use any network applications.
+
+----
+# ip addr flush dev end0
+# ip addr add 10.30.0.123/24 dev end0
+# ip route add default via 10.30.0.1 dev end0
+# ip link set dev end0 up
+----
+
+== USB
+
+If you have a USB memory, you can mount it like this:
+
+----
+# mount /dev/sda1 /mnt
+----
+
+== GPIO
+
+In `sc-image-dev`, you can use the `gpiod` tools to control GPIOs.
+
+=== Set GPIO(`PMC_MIO12`)
+
+----
+# gpioset -c 1 12=1
+----
+
+=== Clear GPIO(`PMC_MIO12`)
+
+----
+# gpioset -c 1 12=0
+----
+
+=== Read GPIO(`PMC_MIO12`)
+
+----
+# gpioget -c 1 12
+active
+----
+
+It also has `libgpiod` python3 bindings.
+
+== eMMC
+
+If Linux detected the eMMC, you can see the device file:
+
+----
+# ls /dev/mmcblk1
+/dev/mmcblk1
+----
+
+If you want to make partitions on the eMMC, you can use `fdisk`:
+
+----
+# fdisk /dev/mmcblk1
+
+The number of cylinders for this disk is set to 1942528.
+There is nothing wrong with that, but this is larger than 1024,
+and could in certain setups cause problems with:
+1) software that runs at boot time (e.g., old versions of LILO)
+2) booting and partitioning software from other OSs
+   (e.g., DOS FDISK, OS/2 FDISK)
+
+Command (m for help): n
+Partition type
+   p   primary partition (1-4)
+   e   extended
+p
+Partition number (1-4): 1
+First sector (16-124321791, default 16):
+Using default value 16
+Last sector or +size{,K,M,G,T} (16-124321791, default 124321791):
+Using default value 124321791
+
+Command (m for help): w
+The partition table has been altered.
+Calling ioctl() to re-read partition table
+[  159.487171]  mmcblk1: p1
+----
+
+If you want to make a filesystem on the partition, you can use `mkfs`:
+----
+# mkfs.vfat /dev/mmcblk1p1
+----
+
+If the device is formatted with a supported filesystem, you can mount
+and use it.
+
+----
+# mount /dev/mmcblk1p1 /mnt
+# df -h | grep mmcblk1
+/dev/mmcblk1p1           59.3G     16.0K     59.3G   0% /mnt
+# ls /mnt
+----
+
+
+== microSD card
+
+It's the same as eMMC. If Linux detectec a SD card, you can see the
+device file:
+
+----
+# ls /dev/mmcblk0
+/dev/mmcblk0
+# mount /dev/mmcblk1 /mnt
+# ls /mnt
+----
+
+
+== SPI NOR Flash
+
+Under Linux, SPI NOR Flash Memory is a MTD device. If Linux detected
+the device you can see the device like this:
+
+----
+# ls /dev/mtd0 /dev/mtd0ro /dev/mtdblock0
+/dev/mtd0
+/dev/mtd0ro
+/dev/mtdblock0
+----
+
+`/dev/mtd0` is a char device. Thus, you can read from and write to it.
+`/dev/mtdblock0` is a block device.  Thus, you can format it and write
+to it. Both points to the same device.
+
+See http://www.linux-mtd.infradead.org/faq/general.html#L_mtd_what for
+more info.
+
+=== Write and read data
+
+----
+# echo "SPI NOR Flash 1" > /dev/mtd0
+# hexdump -C /dev/mtd0
+----
+
+=== Erase all sectors
+
+----
+# flash_erase /dev/mtd0 0 0
+----
+
+=== Switch banks
+
+SC-OBC Module V1 has two SPI NOR Flash banks.
+You can switch between them by controlling `QSPI_MEM_SEL`(`PMC_MIO50`) pin.
+
+----
+# gpioset -c 1 50=0
+# echo "SPI NOR Flash 1" > /dev/mtd0
+# hexdump -C /dev/mtd0
+00000000  53 50 49 20 4e 4f 52 20  46 6c 61 73 68 20 31 0a  |SPI NOR Flash 1.|
+00000010  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+*
+# gpioset -c 1 50=1
+# hexdump -C /dev/mtd0
+00000000  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+00000010  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+*
+# echo "SPI NOR Flash 2" > /dev/mtd0
+# hexdump -C /dev/mtd0
+00000000  53 50 49 20 4e 4f 52 20  46 6c 61 73 68 20 32 0a  |SPI NOR Flash 2.|
+00000010  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+*
+# gpioset -c 1 50=0
+# hexdump -C /dev/mtd0
+00000000  53 50 49 20 4e 4f 52 20  46 6c 61 73 68 20 31 0a  |SPI NOR Flash 1.|
+00000010  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+*
+----
+
+== RTC
+
+----
+# hwclock -s
+# cat /sys/class/rtc/rtc0/date
+2025-11-17
+# cat /sys/class/rtc/rtc0/time
+12:34:56
+----

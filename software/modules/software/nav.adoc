@@ -1,0 +1,11 @@
+.Software
+* xref:overview.adoc[]
+* xref:setup.adoc[]
+* xref:rpu.adoc[]
+* xref:apu.adoc[]
+** xref:apu-build-yocto.adoc[]
+** xref:apu-sd-boot.adoc[]
+** xref:apu-peripherals.adoc[]
+** xref:apu-machine-conf.adoc[]
+** xref:apu-dualboot.adoc[]
+** xref:apu-custom-layers.adoc[]

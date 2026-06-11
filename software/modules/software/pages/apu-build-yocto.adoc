@@ -1,0 +1,118 @@
+= Building a Linux Image with Yocto
+
+include::partial$link-attributes.adoc[]
+
+Our Linux software stack is based on {yocto-org}[the Yocto project].
+
+In order to build it, we use {kas-github}[`kas`], which fetches and
+builds bitbake based project. If you already know about Yocto, you
+don't have to use `kas`. Our layer, `meta-scobc`, can be used as a
+regular yocto layer.
+
+== Setup the Build Environment
+
+The `meta-xilinx-tool` layer depends on some packages that are not available in Ubuntu 24.04.
+
+To install them, you need to add Ubuntu 22.04 (Jammy) repositories to your system.
+
+[source,  bash]
+----
+$ sudo tee /etc/apt/sources.list.d/jammy.list << 'EOF'
+deb http://archive.ubuntu.com/ubuntu jammy main universe
+deb http://archive.ubuntu.com/ubuntu jammy-updates main universe
+deb http://security.ubuntu.com/ubuntu jammy-security main universe
+EOF
+$ sudo tee /etc/apt/preferences.d/jammy-pin << 'EOF'
+Package: *
+Pin: release a=jammy
+Pin-Priority: -1
+
+Package: libncurses5 libtinfo5
+Pin: release a=jammy
+Pin-Priority: 990
+EOF
+----
+
+Then, install the required packages.
+
+[source,  bash]
+----
+$ sudo apt update
+$ sudo apt install binutils chrpath cpio diffstat file g++ gawk gcc \
+                   git git-lfs libncurses5 libtinfo5 lz4 make python3 \
+                   rpcsvc-proto zstd
+----
+
+Next, install `uv`, which is a tool to manage Python virtual environments.
+
+[source,  bash]
+----
+$ curl -LsSf https://astral.sh/uv/install.sh | sh
+----
+
+== Clone the Repository
+
+[source,  bash]
+----
+$ git clone https://github.com/spacecubics/meta-scobc
+$ cd meta-scobc
+----
+
+NOTE: `meta-scobc` uses {git-lfs}[Git Large File Storage (Git
+LFS)]. Make sure you install it.
+
+== Install and Enable the Required Python Packages
+
+[source,  bash]
+----
+$ uv sync
+$ source .venv/bin/activate
+----
+
+== Build the Minimal Image
+
+With `kas`, it's easier than bitbake to build the whole system. Just
+let it do the work with the following command.
+
+NOTE: From `meta-scobc` version `scobc-v1-v0.3.0`,
+SDT(System Device Tree)-based builds are the default.
+
+=== For Space Grade
+
+[source,  bash]
+----
+$ kas build kas/scobc-v1.yml
+----
+
+`build/tmp/deploy/images/versal-scobc-v1-ve2302i-sdt-full/` will contain
+the generated image files.
+
+[source,  bash]
+----
+$ ls -1F build/tmp/deploy/images/versal-scobc-v1-ve2302i-sdt-full/*.wic
+build/tmp/deploy/images/versal-scobc-v1-ve2302i-sdt-full/sc-image-minimal-versal-scobc-v1-ve2302i-sdt-full-yyyyMMddHHmmss.wic
+build/tmp/deploy/images/versal-scobc-v1-ve2302i-sdt-full/sc-image-minimal-versal-scobc-v1-ve2302i-sdt-full.wic@
+----
+
+NOTE: `sc-image-minimal-versal-scobc-v1-ve2302i-sdt-full.wic` is a symlink to
+the latest build.
+
+=== For Developer Grade
+
+[source,  bash]
+----
+$ kas build kas/scobc-v1-devgrade.yml
+----
+
+`build/tmp/deploy/images/versal-scobc-v1-ve2302e-sdt-full/` will contain
+the generated image files.
+
+[source,  bash]
+----
+$ ls -1F build/tmp/deploy/images/versal-scobc-v1-ve2302e-sdt-full/*.wic
+build/tmp/deploy/images/versal-scobc-v1-ve2302e-sdt-full/sc-image-minimal-versal-scobc-v1-ve2302e-sdt-full-yyyyMMddHHmmss.wic
+build/tmp/deploy/images/versal-scobc-v1-ve2302e-sdt-full/sc-image-minimal-versal-scobc-v1-ve2302e-sdt-full.wic@
+----
+
+NOTE: `sc-image-minimal-versal-scobc-v1-ve2302e-sdt-full.wic` is a symlink to
+the latest build.

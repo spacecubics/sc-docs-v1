@@ -1,0 +1,31 @@
+= Overview
+
+== About This Software Section
+
+This section describes the software for the SC-OBC Module V1 and how
+it is organized across the device’s heterogeneous compute
+resources. Because the module includes multiple processor classes,
+each has its own section and build, boot, and validation guidance.
+
+The first section covers setup and preparation. In addition to the
+SC-OBC Module V1, you will need a few items to use the OBC. You will
+also set up your development environment.
+
+The section on the AMD Versal application processors (dual Arm
+Cortex-A72) explains how to build U-Boot and Linux with the Yocto Project, and
+how to boot from an SD card. It outlines the standard Versal boot flow where PLM
+hands off to TF-A, then U-Boot loads Linux, and it notes that SD boot is a
+supported sequence.
+
+The section on the AMD Versal real-time processors (dual Arm
+Cortex-R5F) focuses on Zephyr RTOS for flight-critical workloads that
+require deterministic behavior and predictable scheduling. It covers
+building and running Zephyr on the R5F cores in lockstep mode.
+
+== External Resources
+
+* https://docs.amd.com/r/en-US/am011-versal-acap-trm[Versal Adaptive SoC Technical Reference Manual (AM011)]
+* https://docs.amd.com/r/en-US/am012-versal-register-reference[Register reference for Versal Adaptive SoC Devices (AM012)]
+* https://docs.amd.com/r/en-US/ug1304-versal-acap-ssdg[Versal Adaptive SoC System Software Developers Guide (UG1304)]
+* https://docs.amd.com/r/en-US/ug1283-bootgen-user-guide[Bootgen User Guide (UG1283)]
+* https://docs.amd.com/r/2025.1-English/ug1725-xsdb-reference-guide/Software-Debugger-XSDB[Software Debugger Reference Guide (UG1725)]

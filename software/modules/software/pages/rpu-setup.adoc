@@ -1,0 +1,141 @@
+= Setup the Development Environment
+
+include::partial$link-attributes.adoc[]
+
+NOTE: This section is mostly the same as the "{zephyr-gsg}[Getting Started Guide]"
+from the Zephyr official documentation. If you are already familiar
+with Zephyr development environment, you can safely skip this section.
+
+
+== Install Required Dependencies
+
+[source,  bash]
+----
+$ sudo apt update && sudo apt upgrade
+$ sudo apt install --no-install-recommends git cmake ninja-build gperf \
+    ccache dfu-util device-tree-compiler wget \
+    python3-dev python3-venv python3-pip python3-setuptools python3-tk \
+    python3-wheel xz-utils file \
+    make gcc gcc-multilib g++-multilib libsdl2-dev libmagic1
+----
+
+== Setup a Workspace
+
+Create your working directory and a new virtual environment.
+
+[source, bash]
+----
+$ mkdir -p ~/myproject && cd ~/myproject
+$ python3 -m venv .venv
+$ source .venv/bin/activate
+----
+
+== Install the West
+
+Once venv is activated, we can install West locally.
+
+[source, bash]
+----
+$ pip install west
+----
+
+== Clone Zephyr Repository
+
+Zephyr support for this product is available from both the upstream Zephyr
+repository and the Space Cubics fork.
+
+In general, we recommend using the upstream Zephyr repository when the required
+features are already supported there. Use the Space Cubics fork when you need
+features that have not yet been merged upstream.
+
+[cols="1,2"]
+|===
+|Repository
+|URL
+
+|Upstream Zephyr
+|https://github.com/zephyrproject-rtos/zephyr
+
+|Space Cubics fork
+|https://github.com/spacecubics/zephyr
+|===
+
+[cols="1,1,1"]
+|===
+|Feature
+|Upstream Zephyr
+|Space Cubics Fork
+
+|UART
+|✅️
+|✅️
+
+|GPIO
+|✅️
+|✅️(`v2026.05` or later)
+
+|QSPI Configuration Memory
+|TBA
+|TBA
+
+|QSPI Boot Memory
+|TBA
+|TBA
+
+|SPI
+|TBA
+|TBA
+
+|eMMC
+|TBA
+|WIP
+
+|OpenAMP
+|TBA
+|TBA
+|===
+
+After selecting the repository to use, initialize the Zephyr workspace with
+`west`.
+
+[source, bash]
+----
+$ west init -m <URL>
+$ west update
+$ west zephyr-export
+----
+
+== Install the Python Requirements
+
+[source, bash]
+----
+$ west packages pip --install
+----
+
+== Install the Zephyr SDK
+
+[source, bash]
+----
+$ west sdk install
+----
+
+== Install Udev Rules
+
+Install the udev rules, which allow you to flash most Zephyr boards as a regular user.
+
+[source, bash]
+----
+sudo cp ~/zephyr-sdk-[VERSION]/sysroots/x86_64-pokysdk-linux/usr/share/openocd/contrib/60-openocd.rules \
+        /etc/udev/rules.d
+sudo udevadm control --reload
+----
+
+== Install the tio Package
+
+Although there are several tools available for working with a serial
+console, this document uses {tio-github}[`tio`, a serial device I/O tool].
+
+[source, bash]
+----
+sudo apt install tio
+----
