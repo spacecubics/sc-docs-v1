@@ -1,0 +1,3 @@
+/product/ @spacecubics/hardware
+/fpga/ @spacecubics/logic
+/software/ @spacecubics/software
