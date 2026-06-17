@@ -89,6 +89,20 @@ Prepare an output directory and copy the Yocto-generated kernel configuration.
 $ export OUT=<path-to-out>
 $ mkdir -p "$OUT"
 $ cp /path/to/meta-scobc/build/tmp/work/versal_scobc_v1_ve2302i_sdt_full-amd-linux/linux-xlnx/6.12.40+git+v2025.2/defconfig $OUT/.config
+----
+
+To change the kernel release string, set `LOCALVERSION` in `.config` before
+running `olddefconfig`. For example:
+
+[source,bash]
+----
+$ scripts/config --file "$OUT/.config" --set-str LOCALVERSION "-manual"
+----
+
+Update the kernel configuration.
+
+[source,bash]
+----
 $ make O="$OUT" olddefconfig
 ----
 
