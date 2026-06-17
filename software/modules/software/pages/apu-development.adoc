@@ -3,6 +3,7 @@
 This section describes how to build individual APU software components
 without building the complete Yocto image every time.
 
+[#create_yocto_sdk]
 == Create the Yocto SDK
 
 Build and install the Yocto SDK before building individual components such as
@@ -23,3 +24,80 @@ After installation, source the `environment-setup-*` script from the installed
 SDK. This configures the environment variables required for cross-compilation,
 including compiler variables such as `CC`, build flags such as `CFLAGS`, and
 target architecture settings.
+
+== Kernel
+
+This section shows how to build the Linux kernel from the `linux-xlnx`
+repository by using the Yocto SDK environment.
+
+Before running the kernel build commands, source the SDK environment setup
+script as described in <<create_yocto_sdk>>.
+
+=== Build
+
+Set the `linux-xlnx` base revision used by the Yocto release.
+
+[source,bash]
+----
+$ export LINUX_XLNX_BASE_REV=31626ef92ff11f9d3dee01926720572666fcc65a
+----
+
+For `v2025.2`, use commit
+`31626ef92ff11f9d3dee01926720572666fcc65a`.
+
+Clone `linux-xlnx` and check out the revision used by the Yocto release.
+
+[source,bash]
+----
+$ git clone https://github.com/Xilinx/linux-xlnx.git
+$ cd linux-xlnx
+$ git checkout "$LINUX_XLNX_BASE_REV"
+$ git switch -c work/kernel-sample
+----
+
+Create a patch from the Yocto-patched kernel source tree.
+
+[source,bash]
+----
+$ cd /path/to/meta-scobc/build/tmp/work-shared/versal-scobc-v1-ve2002e-sdt-full/kernel-source
+$ git diff --binary "$LINUX_XLNX_BASE_REV" -- > /tmp/linux-xlnx-yocto.patch
+----
+
+Apply the generated patch to the external kernel source tree.
+
+[source,bash]
+----
+$ cd /path/to/linux-xlnx
+$ git apply --check /tmp/linux-xlnx-yocto.patch
+$ git apply --index /tmp/linux-xlnx-yocto.patch
+$ git commit -m "Apply Yocto kernel patch set"
+----
+
+Prepare an output directory and copy the Yocto-generated kernel configuration.
+
+[source,bash]
+----
+$ export OUT=<path-to-out>
+$ mkdir -p "$OUT"
+$ cp /path/to/meta-scobc/build/tmp/work/versal_scobc_v1_ve2302i_sdt_full-amd-linux/linux-xlnx/6.12.40+git+v2025.2/defconfig $OUT/.config
+$ make O="$OUT" olddefconfig
+----
+
+Build the kernel image and kernel modules.
+
+[source,bash]
+----
+$ make O="$OUT" -j"$(nproc)" Image modules
+----
+
+Install the kernel modules into a staging directory.
+
+[source,bash]
+----
+$ export KREL=$(make -s --no-print-directory O="$OUT" kernelrelease)
+$ make O="$OUT" INSTALL_MOD_PATH="$OUT/modinst" modules_install
+----
+
+`KREL` is the kernel release string used for the module directory under
+`/lib/modules/$KREL`. The installed modules are staged under
+`$OUT/modinst/lib/modules/$KREL/`.
