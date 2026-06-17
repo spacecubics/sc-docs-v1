@@ -3,6 +3,15 @@
 This section describes how to build individual APU software components
 without building the complete Yocto image every time.
 
+The procedures in this section assume that the target is running a development
+image. Build the image with `kas/conf/development.yml` to enable root login and
+passwordless file transfer for development.
+
+[source,bash]
+----
+$ uv run kas build --force-checkout kas/scobc-v1.yml:kas/conf/development.yml
+----
+
 [#create_yocto_sdk]
 == Create the Yocto SDK
 
@@ -101,3 +110,61 @@ $ make O="$OUT" INSTALL_MOD_PATH="$OUT/modinst" modules_install
 `KREL` is the kernel release string used for the module directory under
 `/lib/modules/$KREL`. The installed modules are staged under
 `$OUT/modinst/lib/modules/$KREL/`.
+
+=== Apply to the Target
+
+U-Boot loads the kernel image from `/boot/Image`. Replace this file and install
+the matching kernel modules to apply the locally built kernel to the target.
+
+Set the target SSH destination on the build host.
+
+[source,bash]
+----
+$ export TARGET=root@<target-ip>
+----
+
+Copy the new kernel image to the boot partition and replace the active image.
+The existing image is kept as `Image.prev`.
+
+[source,bash]
+----
+$ scp "$OUT/arch/arm64/boot/Image" "$TARGET:/boot/Image.new"
+$ ssh "$TARGET" '
+    set -e
+    cd /boot
+    cp -a Image Image.prev
+    mv Image.new Image
+    sync
+'
+----
+
+Install the matching kernel modules from the staging directory.
+
+[source,bash]
+----
+$ rsync -a --delete \
+    "$OUT/modinst/lib/modules/$KREL/" \
+    "$TARGET:/lib/modules/$KREL/"
+----
+
+Update the module dependency files on the target.
+
+[source,bash]
+----
+$ ssh "$TARGET" "depmod -a '$KREL'; sync"
+----
+
+Reboot the target.
+
+[source,bash]
+----
+$ ssh "$TARGET" reboot
+----
+
+After rebooting, confirm that the running kernel release matches the built
+kernel.
+
+[source,bash]
+----
+$ ssh "$TARGET" uname -r
+----
