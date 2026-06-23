@@ -1,0 +1,95 @@
+= Communicate with the Safety Processor from the RPU
+
+This section describes how to communicate with the Safety Processor from the
+RPU.
+
+== Sample applications
+
+The sample applications are available in the
+https://github.com/spacecubics/scobc-sp-sample[scobc-sp-sample]
+repository.
+
+=== Setup
+
+Set up the workspace and download the sample application:
+
+[source,  bash]
+----
+$ west init -m https://github.com/spacecubics/scobc-sp-sample.git scobc-sp-sample-workspace
+$ cd scobc-sp-sample-workspace
+$ west update
+----
+
+=== Shell sample
+
+Build and flash the shell sample application to the RPU. The application will
+communicate with the Safety Processor from the shell commands using the
+IPC (Inter-Processor Communication) interface.
+
+[source,  bash]
+----
+$ west build -p always -b scobc_v1/versal_rpu scobc-sp-sample/shell
+$ west flash --pdi /path/to/pdi
+----
+
+Then, connect to the RPU shell using a serial terminal program. The RPU shell is
+available on a serial port such as `/dev/ttyUSB2`, depending on your system:
+
+[source,  bash]
+----
+$ tio /dev/ttyUSB2
+*** Booting Zephyr OS build v2026.06 ***
+SC-OBC Safety Processor IPC shell sample
+
+uart:~$
+----
+
+==== Get sensor values
+
+The `sensor` command reads the Safety Processor sensor values. The command has
+two subcommands: `temp` and `current`. The `temp` subcommand reads the
+temperature sensors on the board, while the `current` subcommand reads the
+current values from the C/V (Current/Voltage) monitors.
+
+[source,  bash]
+----
+uart:~$ sensor -h
+sensor - Read Safety Processor sensor values
+Subcommands:
+  temp     : Read temperature sensors
+  current  : Read current monitors
+uart:~$ sensor
+Temp Average: 40.500 degC
+CV Total: 0.907 A
+CV SYS: 0.158 A
+CV PS: 0.545 A
+CV PL: 0.204 A
+uart:~$ sensor temp
+Temp Average: 40.500 degC
+uart:~$ sensor current
+CV Total: 0.907 A
+CV SYS: 0.158 A
+CV PS: 0.545 A
+CV PL: 0.204 A
+----
+
+==== Get and set boot memory port
+
+The `bootmem` command gets or sets the boot memory port. The command takes an
+optional argument of `0` or `1`. If no argument is provided, the command returns
+the current boot memory port. If an argument is provided, the command sets
+the boot memory port to the specified value.
+
+[source,  bash]
+----
+uart:~$ bootmem -h
+bootmem - Get/Set boot memory: 0 or 1
+uart:~$ bootmem
+Boot memory port: 0
+uart:~$ bootmem 1
+Boot memory port: 1
+----
+
+NOTE: While the power remains on, the `bootmem` value is retained, but it
+returns to `0` on the next cold boot. This is because the Safety Processor does
+not yet implement a configuration persistence feature.
