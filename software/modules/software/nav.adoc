@@ -2,6 +2,7 @@
 * xref:overview.adoc[]
 * xref:setup.adoc[]
 * xref:rpu.adoc[]
+** xref:rpu-safety-processor.adoc[]
 * xref:apu.adoc[]
 ** xref:apu-build-yocto.adoc[]
 ** xref:apu-sd-boot.adoc[]
