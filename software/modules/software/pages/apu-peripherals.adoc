@@ -168,35 +168,6 @@ more info.
 # flash_erase /dev/mtd0 0 0
 ----
 
-=== Switch banks
-
-SC-OBC Module V1 has two SPI NOR Flash banks.
-You can switch between them by controlling `QSPI_MEM_SEL`(`PMC_MIO50`) pin.
-
-----
-# gpioset -c 1 50=0
-# echo "SPI NOR Flash 1" > /dev/mtd0
-# hexdump -C /dev/mtd0
-00000000  53 50 49 20 4e 4f 52 20  46 6c 61 73 68 20 31 0a  |SPI NOR Flash 1.|
-00000010  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
-*
-# gpioset -c 1 50=1
-# hexdump -C /dev/mtd0
-00000000  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
-00000010  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
-*
-# echo "SPI NOR Flash 2" > /dev/mtd0
-# hexdump -C /dev/mtd0
-00000000  53 50 49 20 4e 4f 52 20  46 6c 61 73 68 20 32 0a  |SPI NOR Flash 2.|
-00000010  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
-*
-# gpioset -c 1 50=0
-# hexdump -C /dev/mtd0
-00000000  53 50 49 20 4e 4f 52 20  46 6c 61 73 68 20 31 0a  |SPI NOR Flash 1.|
-00000010  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
-*
-----
-
 == RTC
 
 ----
