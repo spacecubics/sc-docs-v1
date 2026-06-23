@@ -83,12 +83,12 @@ features that have not yet been merged upstream.
 |TBA
 
 |SPI
-|TBA
-|TBA
+|WIP
+|WIP
 
 |eMMC
-|TBA
 |WIP
+|✅️(`v2026.06` or later)
 
 |OpenAMP
 |TBA
