@@ -1,0 +1,18 @@
+= Overview
+
+The Safety Processor manages the Main Processor mounted on the SC-OBC Module V1
+and monitors the health of the board.
+The Safety Processor is designed for radiation tolerance by implementing
+triple-modular redundancy (TMR) in its primary logic flip-flops and applying ECC
+(Single Error Correction, Double Error Detection: SECDED) to data stored in
+on-chip memory blocks.
+
+image::safety-processor-system.png[Safety Processor System Diagram]
+
+In the SC-OBC Module V1, communication with spacecraft communication equipment
+and other components is assumed to be handled by the Main Processor.
+Therefore, after power-on, the Safety Processor starts the Main Processor and
+autonomously manages the OBC. It also provides OBC management information to the
+Main Processor according to instructions from the Main Processor.
+The Safety Processor and Main Processor communicate through IPC(Inter-Processor
+Communication) on SPI.

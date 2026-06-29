@@ -1,0 +1,240 @@
+= Commands
+
+The Safety Processor provides a set of commands that the Main Processor can use
+to communicate with it. The Safety Processor and the Main Processor communicate
+through IPC(Inter-Processor Communication) on SPI.
+
+== OBC System Management Commands
+
+=== Get API Version
+
+Get API Version is a command used to retrieve the command API version supported
+by the Safety Processor firmware.
+The command API version used by the Main Processor and the Safety Processor must
+match, and operation between different versions is not guaranteed.
+
+==== Command Description
+
+[cols="1,3",options="header"]
+|===
+
+|Item
+|Value
+
+|Command Code
+|`0x0106`
+
+|Data Length
+|4 Bytes
+
+|===
+
+==== Read Data Description
+
+
+[cols="1,1,2",options="header"]
+|===
+
+|Bit
+|Field
+|Description
+
+|`31:0`
+|API Version
+|Indicates the API Version of the Safety Processor.
+
+|===
+
+== OBC Status Monitoring Commands
+
+=== Get Temperature
+
+Get Temperature is a command used to retrieve periodically acquired temperature
+sensor data.
+The Main Processor uses this command to obtain the latest temperature data from
+the Safety Processor.
+
+==== Command Description
+
+[cols="1,3",options="header"]
+|===
+
+|Item
+|Value
+
+|Command Code
+|`0x4105`
+
+|Data Length
+|2 Bytes
+
+|===
+
+==== Read Data Description
+
+
+[cols="1,1,2",options="header"]
+|===
+
+|Bit
+|Field
+|Description
+
+|`15:12`
+|Reserved
+|-
+
+|`11:0`
+|Temperature
+|Indicates the current board temperature of the OBC.
+
+|===
+
+=== Get Current Consumption
+
+Get Current Consumption is a command used to retrieve current consumption values
+periodically acquired by the Safety Processor from the Current/Voltage Monitors.
+The Main Processor uses this command to obtain the current consumption of each
+power domain of the OBC.
+
+Multiple Current/Voltage Monitors are implemented on the OBC.
+By specifying the target Current/Voltage Monitor in the command, the current
+consumption of any power domain can be obtained.
+
+==== Command Description
+
+[cols="1,1,2",options="header"]
+|===
+
+|Item
+|Domain
+|Value
+
+|Command Code
+|Total
+|`0x4205`
+
+|
+|SYS
+|`0x4225`
+
+|
+|PS
+|`0x4245`
+
+|
+|PL
+|`0x4265`
+
+|Data Length
+|
+|2 Bytes
+
+|===
+
+==== Read Data Description
+
+
+[cols="1,1,2",options="header"]
+|===
+
+|Bit
+|Field
+|Description
+
+|`15:12`
+|Reserved
+|-
+
+|`11:0`
+|Current Consumption
+|Indicates the current consumption of the OBC.
+
+|===
+
+== Main Processor Control Command
+
+=== Set Boot Memory Select
+
+Set Boot Memory Select is a command used to switch the memory bank of the Main
+Processor Boot Data Store.
+
+This command only switches the currently selected memory bank, and the selected
+state after switching is not saved.
+
+==== Command Description
+
+[cols="1,3",options="header"]
+|===
+
+|Item
+|Value
+
+|Command Code
+|`0x8109`
+
+|Data Length
+|2 Bytes
+
+|===
+
+==== Write Data Description
+
+
+[cols="1,1,2",options="header"]
+|===
+
+|Bit
+|Field
+|Description
+
+|`15:1`
+|Reserved
+|-
+
+|`0`
+|Bank
+|Sets the memory bank of the Boot Data Store.
+
+|===
+
+=== Get Boot Memory Select
+
+Get Boot Memory Select is a command used to retrieve the currently selected
+memory bank of the Main Processor Boot Data Store.
+
+==== Command Description
+
+[cols="1,3",options="header"]
+|===
+
+|Item
+|Value
+
+|Command Code
+|`0x8105`
+
+|Data Length
+|2 Bytes
+
+|===
+
+==== Read Data Description
+
+
+[cols="1,1,2",options="header"]
+|===
+
+|Bit
+|Field
+|Description
+
+|`15:1`
+|Reserved
+|-
+
+|`0`
+|Bank
+|Indicates the currently selected memory bank of the Boot Data Store.
+
+|===
