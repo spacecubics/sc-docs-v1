@@ -1,0 +1,139 @@
+= Features
+
+== OBC System Management
+
+The Safety Processor manages the operational status of the OBC.
+The managed information includes system information such as:
+
+- Board revision
+- System version
+- Boot count
+- Uptime
+- ECC error count
+
+This information is provided to the Main Processor.
+
+NOTE: This feature is not implemented yet.
+
+== OBC Status Monitoring
+
+The Safety Processor obtains the OBC status from the sensors implemented on
+the OBC.
+
+=== OBC Temperature Monitoring
+
+The Safety Processor obtains temperature readings every second from multiple
+temperature sensors mounted on the OBC.
+Based on the data read from each sensor, the Safety Processor calculates and
+stores a valid temperature value.
+
+When the Safety Processor receives a temperature acquisition command from the
+Main Processor, it sends the latest temperature data to the Main Processor.
+
+=== OBC Current/Voltage Monitoring
+
+The Safety Processor obtains current and voltage readings every second from the
+Current/Voltage Monitors implemented on the OBC.
+
+Current/Voltage Monitors are implemented on the following power nodes of the
+OBC.
+
+[cols="1,3",options="header",]
+|===
+
+|Domain Name
+|Power Domain
+
+|SYS domain
+|Safety Processor and external supply to the OBC Module
+
+|PS domain
+|Main Processor Processor System
+
+|PL domain
+|Main Processor Programmable Logic
+
+|===
+
+== Main Processor Control
+
+The Safety Processor manages the power and reset for the Main Processor.
+
+=== Main Processor Power Control
+
+When power is applied to the OBC and the Safety Processor starts the OBC
+management, it powers on the Main Processor.
+Power is applied to all power domains of the Main Processor in accordance with
+the specified power-up sequence.
+After confirming that each power domain has reached the Power Good state, the
+Safety Processor releases the reset to start the Main Processor.
+
+=== Main Processor Power Cycle Control
+
+Upon request from the Main Processor, the Safety Processor performs a power
+cycle of the Main Processor.
+Power cycling is used for recovery from faults detected by the Application
+Processor or the Real-Time Processor, rebooting after on-orbit software updates,
+and restarting the system during flight software development on the ground.
+Power and reset controls for power cycle are performed in accordance with the
+sequence specified for the Main Processor device.
+
+=== Main Processor Boot Control
+
+The OBC provides a dual-bank memory configuration as the Boot Data Store for the
+Main Processor.
+Although the memory is implemented in a single memory device, it is internally
+divided into two independent memory banks, each with its own access interface.
+
+Before the Main Processor starts, the Safety Processor selects the Boot Data
+Store.
+Immediately after power-on, the Boot Data Store is selected based on the boot
+bank information stored in the Safety Processor's Non-Volatile Memory, and the
+Main Processor is started.
+
+NOTE: This feature is not implemented yet.
+
+After the Main Processor has started, the Safety Processor does not switch the
+Boot Data Store autonomously.
+Switching of the Boot Data Store is performed only in response to requests from
+the Main Processor, such as for software updates or verification of the
+integrity of the stored data.
+
+== External Interfaces
+
+The Safety Processor provides the interfaces for monitoring and controlling from
+external systems.
+
+=== Safety Processor Telemetry/Telecommand
+
+The Safety Processor provides the Telemetry/Telecommand interface for monitoring
+its status and controlling its operation and configuration.
+It is provided as a serial interface in SC-OBC Module V1.
+
+==== Telemetry
+
+The Safety Processor outputs its internal status to an external at one-second
+intervals.
+
+The telemetry interface supports multiple output modes intended not only for
+software development but also for reliability testing and other validation
+activities.
+
+NOTE: This feature is not implemented yet.
+
+==== Telecommand
+
+The telecommand is mainly used during ground testing to change the operation
+settings of the Safety Processor.
+
+NOTE: This feature is not implemented yet.
+
+=== Safety Processor Keep Alive Signal Output
+
+The Safety Processor provides the Keep Alive Signal interface to indicate its
+status to external systems.
+The Safety Processor monitors its internal status, and periodically toggles the
+Keep Alive Signal while it confirms that it is working properly.
+It stops toggling the Keep Alive Signal if it defects abnormal conditions.
+
+The Keep Alive Signal toggles at one-second intervals.

@@ -1,29 +1,32 @@
-= Safety Processor (IGLOO2) Development
+= Firmware Update
 
-The Safety Processor is used by programming the firmware provided by Space Cubics.  
-At this time, modifications to the Safety Processor logic by the user are not supported.
+The Safety Processor is used by programming the firmware provided by
+Space Cubics.
 
-It is recommended to always use the latest version of the IGLOO2 firmware.
+The development environment includes scripts for updating the firmware of the
+Safety Processor.
+By connecting a Microchip FlashPro to the OBC and running the following
+commands, you can update the firmware:
 
-== Firmware Update
-
-The development environment includes scripts for updating the firmware of the Safety Processor.  
-By connecting a Microchip FlashPro to the OBC and running the following commands, you can update the firmware:
+NOTE: Modifications to the Safety Processor logic by the user are not
+supported.
+It is recommended to always use the latest version of the firmware.
 
 [source, bash]
 ----
-cd igloo2/tools
-make program_image
+$ cd igloo2/tools
+$ make program_image
 ----
 
-After running the command, verify that the process completes successfully by confirming output similar to the following log:
+After running the command, verify that the process completes successfully by
+confirming output similar to the following log:
 
 [source, txt]
 ----
-mkdir -p ./log && echo "*" > ./log/.gitignore
-FPExpress SCRIPT:script/program_image.tcl \
-	"SCRIPT_ARGS:../bitstream/sc_obc_spv1.job" \
-	LOGFILE:./log/program_image.log
+$ mkdir -p ./log && echo "*" > ./log/.gitignore
+    FPExpress SCRIPT:script/program_image.tcl \
+    "SCRIPT_ARGS:../bitstream/sc_obc_spv1.job" \
+    LOGFILE:./log/program_image.log
 Console Mode = Software Version: 2025.1.0.14
 Programmer 'S209431' : JTAG TCK / SPI SCK frequency = 1 MHz
 programmer 'S209431' : FlashPro5

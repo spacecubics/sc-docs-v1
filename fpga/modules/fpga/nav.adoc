@@ -7,5 +7,4 @@
 * xref:ps-dev.adoc[]
 * xref:pl-dev.adoc[]
 * xref:io-config.adoc[]
-* xref:safety_processor_development.adoc[]
 * xref:references.adoc[]
