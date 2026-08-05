@@ -123,9 +123,11 @@ $ west sdk install
 
 Install the udev rules, which allow you to flash most Zephyr boards as a regular user.
 
+NOTE: For Zephyr releases prior to 4.4 (SDK < 1.0.0), replace `hosttools/sysroots` with `sysroots` in the file path below.
+
 [source, bash]
 ----
-sudo cp ~/zephyr-sdk-[VERSION]/sysroots/x86_64-pokysdk-linux/usr/share/openocd/contrib/60-openocd.rules \
+sudo cp ~/zephyr-sdk-[VERSION]/hosttools/sysroots/x86_64-pokysdk-linux/usr/share/openocd/contrib/60-openocd.rules \
         /etc/udev/rules.d
 sudo udevadm control --reload
 ----
