@@ -56,7 +56,7 @@ new_bif:
     image
     {
         name = apu_ss, id = 0x1c000000
-        { core = r5-lockstep, file = ~/myproject/zephyr/build/zephyr/zephyr.elf }
+        { core = r5-lockstep, file = /path/to/myproject/zephyr/build/zephyr/zephyr.elf }
     }
 }
 ----
