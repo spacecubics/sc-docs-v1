@@ -21,3 +21,30 @@ components with confirmed high radiation tolerances, ensuring high
 reliability even in space environments.
 
 image::SC-OBC-Module-V1.webp[product image]
+
+This document applies to the following products:
+
+[cols="2,1,1,1",options="header"]
+|===
+|Product Name |Board Revision |Part Number |Support Status
+
+|SC-OBC Module V1 Space Grade
+|A
+|SC-OBC-V1001
+|Supported
+
+|SC-OBC Module V1 Developer Grade
+|A
+|SC-OBC-V1D01
+|Supported
+
+|SC-OBC Module V1 Space Grade
+|B
+|SC-OBC-V1002
+|Planned footnote:planned[Support is planned for October 2026 or later.]
+
+|SC-OBC Module V1 Developer Grade
+|B
+|SC-OBC-V1D02
+|Planned footnote:planned[]
+|===
