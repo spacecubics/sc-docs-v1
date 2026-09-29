@@ -10,30 +10,30 @@
 
 |Application Processor
 |Up to 1.30 GHz Dual core Arm Cortex-A72 +
-48 KB/32 KB L1 Cache w/ parity & ECC +
-1 MB L2 Cache w/ ECC
+48 KiB/32 KiB L1 Cache w/ parity & ECC +
+1 MiB L2 Cache w/ ECC
 
 |Real-time Processor
 |Up to 600 MHz Dual core Arm Cortex-R5F +
-32 KB/32 KB L1 Cache +
-256 KB TCM w/ECC
+32 KiB/32 KiB L1 Cache +
+256 KiB TCM w/ECC
 
 |AI Engine
 |AI Engine-ML Tiles: 34 +
-AIE/AIE-ML Data Memory: 17 Mb +
-AIE-ML Shared Memory: 68 Mb
+AIE/AIE-ML Data Memory: 17 Mbit +
+AIE-ML Shared Memory: 68 Mbit
 
 |Programmable Logic
 |System Logic: 328,720 +
 LUTs: 150,272 +
 DSP Engines: 464 +
 NoC Master / NoC Slave Ports: 5 +
-Distributed RAM: 4.6 Mb
+Distributed RAM: 4.6 Mbit
 
 |Memory
-|Total Block RAM: 5.4 Mb +
-UltraRAM: 43,6 Mb +
-Accelerator RAM: 32 Mb +
+|Total Block RAM: 5.4 Mbit +
+UltraRAM: 43,6 Mbit +
+Accelerator RAM: 32 Mbit +
 DDR Memory Controllers: 1 (Bus Width: 64)
 
 |===
@@ -55,16 +55,16 @@ DDR Memory Controllers: 1 (Bus Width: 64)
 |Feature|Description
 
 |DDR Memory
-|DDR4 memory 4 GB w/ ECC
+|DDR4 memory 4 GiB w/ ECC
 
 |Boot Memory
-|MRAM 64 MB x 2
+|MRAM 64 MiB x 2
 
 |Storage
-|eMMC 32 GB
+|eMMC 32 GiB
 
 |High Reliability Memory
-|MRAM 8 MB x 1
+|MRAM 8 MiB x 1
 
 |===
 
@@ -74,16 +74,16 @@ DDR Memory Controllers: 1 (Bus Width: 64)
 |Feature|Description
 
 |DDR Memory
-|DDR4 memory 4 GB w/ ECC
+|DDR4 memory 4 GiB w/ ECC
 
 |Boot Memory
-|NOR Flash memory 64 MB x 2
+|NOR Flash memory 64 MiB x 2
 
 |Storage
-|eMMC 64 GB
+|eMMC 64 GiB
 
 |High Reliability Memory
-|FRAM 1 MB x 2
+|FRAM 1 MiB x 2
 
 |===
 
