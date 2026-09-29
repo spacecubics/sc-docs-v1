@@ -49,7 +49,26 @@ DDR Memory Controllers: 1 (Bus Width: 64)
 
 |===
 
-.On Board Memory
+.On Board Memory (Rev.B)
+[cols="1,1"]
+|===
+|Feature|Description
+
+|DDR Memory
+|DDR4 memory 4 GB w/ ECC
+
+|Boot Memory
+|MRAM 64 MB x 2
+
+|Storage
+|eMMC 32 GB
+
+|High Reliability Memory
+|MRAM 8 MB x 1
+
+|===
+
+.On Board Memory (Rev.A)
 [cols="1,1"]
 |===
 |Feature|Description
