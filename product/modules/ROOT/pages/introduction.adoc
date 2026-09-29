@@ -41,10 +41,10 @@ This document applies to the following products:
 |SC-OBC Module V1 Space Grade
 |B
 |SC-OBC-V1002
-|Planned footnote:planned[Support is planned for October 2026 or later.]
+|Planned footnote:planned[Support is planned for April 2027 or later.]
 
 |SC-OBC Module V1 Developer Grade
 |B
 |SC-OBC-V1D02
-|Planned footnote:planned[]
+|Supported
 |===
