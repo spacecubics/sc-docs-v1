@@ -58,7 +58,7 @@ DDR Memory Controllers: 1 (Bus Width: 64)
 |DDR4 memory 4 GiB w/ ECC
 
 |Boot Memory
-|MRAM 64 MiB x 2
+|MRAM 64 MiB x 2 (Redundancy)
 
 |Storage
 |eMMC 32 GiB
@@ -77,13 +77,13 @@ DDR Memory Controllers: 1 (Bus Width: 64)
 |DDR4 memory 4 GiB w/ ECC
 
 |Boot Memory
-|NOR Flash memory 64 MiB x 2
+|NOR Flash memory 64 MiB x 2 (Redundancy)
 
 |Storage
 |eMMC 64 GiB
 
 |High Reliability Memory
-|FRAM 1 MiB x 2
+|FRAM 1 MiB x 1
 
 |===
 
