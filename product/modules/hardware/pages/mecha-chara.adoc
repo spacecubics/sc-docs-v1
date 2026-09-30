@@ -3,14 +3,23 @@
 == Board Outline Dimensions and Mounting Hole Locations
 The following figure shows the board outline dimensions and mounting hole locations.
 
+.Board Outline Dimensions and Mounting Hole Locations(Rev.B)
+image::Board_Layout_Diagram_RevB-1.svg[]
+
+.Board Outline Dimensions and Mounting Hole Locations(Rev.A)
 image::Board_Layout_Diagram_RevA-1.svg[]
 
 == Board-to-Board Connector Locations
 The following figure shows the placement of the board-to-board connectors.
 
+.Board-to-Board Connector Locations(Rev.B)
+image::Board_Layout_Diagram_RevB-2.svg[]
+
+.Board-to-Board Connector Locations(Rev.A)
 image::Board_Layout_Diagram_RevA-2.svg[]
 
 == Board-to-Board Connector Relative Locations on the Carrier Board
 The following figure shows the relative locations of the board-to-board connectors on the carrier board (top view).
 
+.Mezzanine Connector Placement Guidelines for Carrier Board
 image::Mezzanine_Connector_Placement_Guidelines_for_Carrier_Board.svg[]
