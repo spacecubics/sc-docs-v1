@@ -72,6 +72,10 @@ repos:
       meta-scobc:
 ----
 
+NOTE: Choose the
+xref:apu-build-yocto.adoc#board_configurations[kas configuration file]
+that matches your board's grade and revision.
+
 Checkout layers.
 
 [source,console]
