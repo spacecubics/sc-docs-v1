@@ -72,6 +72,15 @@ repos:
       meta-scobc:
 ----
 
+Refer to xref:apu-build-yocto.adoc#board_configurations[Board Configurations]
+and specify the kas configuration file that matches your machine.
+
+.e.g. SC-OBC Module V1 Space Grade Rev.A
+[source,yaml]
+----
+      file: kas/scobc-v1-reva.yml
+----
+
 Checkout layers.
 
 [source,console]
@@ -133,6 +142,9 @@ repos:
 ----
 
 Optional: specify machine
+
+Refer to xref:apu-build-yocto.adoc#board_configurations[Board Configurations]
+and specify the machine that matches your board.
 
 [source,yaml]
 ----

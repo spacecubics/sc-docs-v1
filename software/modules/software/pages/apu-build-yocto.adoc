@@ -92,9 +92,11 @@ and redundancy.
 Select the kas configuration file that matches your SC-OBC Module V1 machine and
 board revision.
 
+[#board_configurations]
+.kas Configurations and Machine Names
 [cols="2,3,7,8",options="header"]
 |===
-| Grade | Board revision | kas configuration file | Machine configuration file
+| Grade | Board revision | kas configuration file | Machine name
 
 | Space Grade
 | Rev.B
