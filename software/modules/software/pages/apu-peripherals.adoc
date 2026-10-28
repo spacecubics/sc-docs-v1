@@ -125,6 +125,56 @@ and use it.
 # ls /mnt
 ----
 
+=== Power control
+
+Radiation can cause the eMMC, particularly its internal controller, to
+malfunction or hang. In such cases, turning the eMMC power off and on
+may help restore operation.
+
+You can control the eMMC power from Linux using the `sdhci-arasan`
+driver's `unbind` and `bind` interfaces for the `f1050000.mmc` controller.
+
+NOTE: eMMC power control is supported only on Rev.B boards.
+
+WARNING: Before unbinding the controller, stop all applications and other
+access to the eMMC, and unmount all filesystems on it. Unbinding while the
+eMMC is in use can cause data loss or filesystem corruption.
+
+For example, if the eMMC partition is mounted at `/mnt` as shown above,
+unmount it before turning the power off:
+
+----
+# umount /mnt
+----
+
+Turn the eMMC power off by unbinding the controller:
+
+----
+# echo f1050000.mmc > /sys/bus/platform/drivers/sdhci-arasan/unbind
+[90438.604347] mmc1: card 0001 removed
+----
+
+Turn the eMMC power on again by binding the controller:
+
+----
+# echo f1050000.mmc > /sys/bus/platform/drivers/sdhci-arasan/bind
+[90463.084593] mmc1: SDHCI controller on f1050000.mmc [f1050000.mmc] using ADMA 64-bit
+[90463.154259] mmc1: new HS200 MMC card at address 0001
+[90463.159688] mmcblk1: mmc1:0001 MMC32G 29.1 GiB
+[90463.166545]  mmcblk1: p1
+[90463.169499] mmcblk1boot0: mmc1:0001 MMC32G 4.00 MiB
+[90463.177776] mmcblk1boot1: mmc1:0001 MMC32G 4.00 MiB
+[90463.186595] mmcblk1rpmb: mmc1:0001 MMC32G 4.00 MiB, chardev (237:0
+----
+
+After Linux detects the eMMC again, check that its device file is available
+before mounting the filesystem again:
+
+----
+# ls /dev/mmcblk1
+/dev/mmcblk1
+# mount /dev/mmcblk1p1 /mnt
+----
 
 == microSD card
 
