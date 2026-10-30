@@ -60,7 +60,7 @@ features that have not yet been merged upstream.
 |https://github.com/spacecubics/zephyr
 |===
 
-[cols="1,1,1"]
+[cols="2,1,1"]
 |===
 |Feature
 |Upstream Zephyr
@@ -74,11 +74,19 @@ features that have not yet been merged upstream.
 |✅️
 |✅️(`v2026.05` or later)
 
-|QSPI Configuration Memory
+|QSPI Boot Memory(MRAM, Rev.B only)
+|TBA
+|✅️(`v2026.10` or later)
+
+|QSPI High Reliability Memory(MRAM, Rev.B only)
+|TBA
+|✅️(`v2026.10` or later)
+
+|QSPI Boot Memory(NOR Flash, Rev.A only)
 |TBA
 |TBA
 
-|QSPI Boot Memory
+|QSPI High Reliability Memory(FRAM, Rev.A only)
 |TBA
 |TBA
 
@@ -89,6 +97,10 @@ features that have not yet been merged upstream.
 |eMMC
 |✅️
 |✅️(`v2026.06` or later)
+
+|Ethernet
+|TBA
+|✅️(`v2026.10` or later)
 
 |OpenAMP
 |✅️
