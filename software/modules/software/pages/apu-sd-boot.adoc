@@ -2,6 +2,7 @@
 
 == Flashing the Image to an SD Card
 
+[source,console]
 ----
 $ sudo dd if=build/tmp/deploy/images/versal-scobc-v1-ve2302i-revb-sdt-full/sc-image-ramroot-versal-scobc-v1-ve2302i-revb-sdt-full.wic \
           of=/dev/sdX \

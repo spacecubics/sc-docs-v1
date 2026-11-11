@@ -18,10 +18,10 @@ First, run the `create_versal_ps_bd` target, then open and modify the Vivado pro
 
 The project can be opened using the following commands:
 
-[source, bash]
+[source,console]
 ----
-cd versal/work/implement
-vivado project/sc_obc_v1_versal.xpr
+$ cd versal/work/implement
+$ vivado project/sc_obc_v1_versal.xpr
 ----
 
 After completing the design in Vivado, close the application and run the `build_versal` target.

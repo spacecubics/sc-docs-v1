@@ -7,10 +7,10 @@ This chapter provides the steps required to perform the following tasks:
 
 == Download the SC-OBC Module V1 FPGA Development Environment
 
-[source, bash]
+[source,console]
 ----
-git clone https://github.com/spacecubics/sc-obc-v1-fpga
-cd sc-obc-v1-fpga/versal
+$ git clone https://github.com/spacecubics/sc-obc-v1-fpga
+$ cd sc-obc-v1-fpga/versal
 ----
 
 == Build the SC-OBC Module V1
@@ -24,16 +24,16 @@ This will not cause any physical damage to the board.
 
 === Space Grade build
 
-[source, bash]
+[source,console]
 ----
-make GRADE=SPACE
+$ make GRADE=SPACE
 ----
 
 === Developer Grade build
 
-[source, bash]
+[source,console]
 ----
-make GRADE=DEV
+$ make GRADE=DEV
 ----
 
 After the build completes, the files `sc_obc_v1_versal.pdi` and `sc_obc_v1_versal.xsa` will be generated under the `work/implement/project` directory.  

@@ -13,7 +13,7 @@ repository.
 
 Set up the workspace and download the sample application:
 
-[source,  bash]
+[source,console]
 ----
 $ west init -m https://github.com/spacecubics/scobc-sp-sample.git scobc-sp-sample-workspace
 $ cd scobc-sp-sample-workspace
@@ -26,7 +26,7 @@ Build and flash the shell sample application to the RPU. The application will
 communicate with the Safety Processor from the shell commands using the
 IPC (Inter-Processor Communication) interface.
 
-[source,  bash]
+[source,console]
 ----
 $ west build -p always -b scobc_v1/versal_rpu scobc-sp-sample/shell
 $ west flash --pdi /path/to/pdi
@@ -35,7 +35,7 @@ $ west flash --pdi /path/to/pdi
 Then, connect to the RPU shell using a serial terminal program. The RPU shell is
 available on a serial port such as `/dev/ttyUSB2`, depending on your system:
 
-[source,  bash]
+[source,console]
 ----
 $ tio /dev/ttyUSB2
 *** Booting Zephyr OS build v2026.06 ***
@@ -51,7 +51,7 @@ two subcommands: `temp` and `current`. The `temp` subcommand reads the
 temperature sensors on the board, while the `current` subcommand reads the
 current values from the C/V (Current/Voltage) monitors.
 
-[source,  bash]
+[source,console]
 ----
 uart:~$ sensor -h
 sensor - Read Safety Processor sensor values
@@ -80,7 +80,7 @@ optional argument of `0` or `1`. If no argument is provided, the command returns
 the current boot memory port. If an argument is provided, the command sets
 the boot memory port to the specified value.
 
-[source,  bash]
+[source,console]
 ----
 uart:~$ bootmem -h
 bootmem - Get/Set boot memory: 0 or 1

@@ -9,7 +9,7 @@ with Zephyr development environment, you can safely skip this section.
 
 == Install Required Dependencies
 
-[source,  bash]
+[source,console]
 ----
 $ sudo apt update && sudo apt upgrade
 $ sudo apt install --no-install-recommends git cmake ninja-build gperf \
@@ -23,7 +23,7 @@ $ sudo apt install --no-install-recommends git cmake ninja-build gperf \
 
 Create your working directory and a new virtual environment.
 
-[source, bash]
+[source,console]
 ----
 $ mkdir -p ~/myproject && cd ~/myproject
 $ python3 -m venv .venv
@@ -34,7 +34,7 @@ $ source .venv/bin/activate
 
 Once venv is activated, we can install West locally.
 
-[source, bash]
+[source,console]
 ----
 $ pip install west
 ----
@@ -110,7 +110,7 @@ features that have not yet been merged upstream.
 After selecting the repository to use, initialize the Zephyr workspace with
 `west`.
 
-[source, bash]
+[source,console]
 ----
 $ west init -m <URL>
 $ west update
@@ -119,14 +119,14 @@ $ west zephyr-export
 
 == Install the Python Requirements
 
-[source, bash]
+[source,console]
 ----
 $ west packages pip --install
 ----
 
 == Install the Zephyr SDK
 
-[source, bash]
+[source,console]
 ----
 $ west sdk install
 ----
@@ -137,11 +137,11 @@ Install the udev rules, which allow you to flash most Zephyr boards as a regular
 
 NOTE: For Zephyr releases prior to 4.4 (SDK < 1.0.0), replace `hosttools/sysroots` with `sysroots` in the file path below.
 
-[source, bash]
+[source,console]
 ----
-sudo cp ~/zephyr-sdk-[VERSION]/hosttools/sysroots/x86_64-pokysdk-linux/usr/share/openocd/contrib/60-openocd.rules \
+$ sudo cp ~/zephyr-sdk-[VERSION]/hosttools/sysroots/x86_64-pokysdk-linux/usr/share/openocd/contrib/60-openocd.rules \
         /etc/udev/rules.d
-sudo udevadm control --reload
+$ sudo udevadm control --reload
 ----
 
 == Install the tio Package
@@ -149,7 +149,7 @@ sudo udevadm control --reload
 Although there are several tools available for working with a serial
 console, this document uses {tio-github}[`tio`, a serial device I/O tool].
 
-[source, bash]
+[source,console]
 ----
-sudo apt install tio
+$ sudo apt install tio
 ----

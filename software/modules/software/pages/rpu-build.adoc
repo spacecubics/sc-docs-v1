@@ -6,7 +6,7 @@ To build Zephyr RTOS for SC-OBC Module V1 is the same as any other
 board. All you have to do is to specify SC-OBC Module V1 (`scobc_v1/versal_rpu`)
 with the `-b` option to `west build`.
 
-[source,  bash]
+[source,console]
 ----
 $ cd ~/myproject/zephyr
 $ west build -b scobc_v1/versal_rpu samples/hello_world
@@ -22,7 +22,7 @@ xref:setup.adoc#_boot_modes[MODE3] by setting all switches on SW1 to ON.
 Currently, for any AMD Versal based board including SC-OBC Module V1, `west
 flash` requires you to have a valid PDI.
 
-[source,  bash]
+[source,console]
 ----
 $ source /path/to/xilinx/2025.1/Vivado/settings64.sh
 $ west flash --pdi /path/to/your.pdi
@@ -72,7 +72,7 @@ First, download the PLM for your device using the command below.
 The following example downloads the PLM for a Rev.B board with VE2302I.
 For VE2302E, set `DEVICE=ve2302e` instead.
 
-[source, bash]
+[source,console]
 ----
 $ DEVICE=ve2302i
 $ curl -fL -o /path/to/plm.elf "https://downloads.spacecubics.com/products/scobc-v1/releases/latest/bootbin/plm-versal-scobc-v1-${DEVICE}-revb-sdt-full.elf"
@@ -103,7 +103,7 @@ new_bif:
 
 For either board revision, run `bootgen` from the directory containing `mytest.bif`:
 
-[source, bash]
+[source,console]
 ----
 $ source /path/to/xilinx/2025.1/Vivado/settings64.sh
 $ bootgen -arch versal -image mytest.bif -w -o boot.bin

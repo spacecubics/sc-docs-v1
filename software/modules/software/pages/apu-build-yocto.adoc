@@ -15,14 +15,18 @@ The `meta-xilinx-tool` layer depends on some packages that are not available in 
 
 To install them, you need to add Ubuntu 22.04 (Jammy) repositories to your system.
 
-[source,  bash]
+[source,bash]
 ----
-$ sudo tee /etc/apt/sources.list.d/jammy.list << 'EOF'
+sudo tee /etc/apt/sources.list.d/jammy.list << 'EOF'
 deb http://archive.ubuntu.com/ubuntu jammy main universe
 deb http://archive.ubuntu.com/ubuntu jammy-updates main universe
 deb http://security.ubuntu.com/ubuntu jammy-security main universe
 EOF
-$ sudo tee /etc/apt/preferences.d/jammy-pin << 'EOF'
+----
+
+[source,bash]
+----
+sudo tee /etc/apt/preferences.d/jammy-pin << 'EOF'
 Package: *
 Pin: release a=jammy
 Pin-Priority: -1
@@ -35,7 +39,7 @@ EOF
 
 Then, install the required packages.
 
-[source,  bash]
+[source,console]
 ----
 $ sudo apt update
 $ sudo apt install binutils chrpath cpio diffstat file g++ gawk gcc \
@@ -45,14 +49,14 @@ $ sudo apt install binutils chrpath cpio diffstat file g++ gawk gcc \
 
 Next, install `uv`, which is a tool to manage Python virtual environments.
 
-[source,  bash]
+[source,console]
 ----
 $ curl -LsSf https://astral.sh/uv/install.sh | sh
 ----
 
 == Clone the Repository
 
-[source,  bash]
+[source,console]
 ----
 $ git clone https://github.com/spacecubics/meta-scobc
 $ cd meta-scobc
@@ -60,7 +64,7 @@ $ cd meta-scobc
 
 == Install and Enable the Required Python Packages
 
-[source,  bash]
+[source,console]
 ----
 $ uv sync
 $ source .venv/bin/activate
@@ -121,7 +125,7 @@ board revision.
 
 === For Space Grade
 
-[source,  bash]
+[source,console]
 ----
 $ kas build kas/scobc-v1.yml
 ----
@@ -129,7 +133,7 @@ $ kas build kas/scobc-v1.yml
 `build/tmp/deploy/images/versal-scobc-v1-ve2302i-revb-sdt-full/` will contain
 the generated image files.
 
-[source,  bash]
+[source,console]
 ----
 $ ls -1F build/tmp/deploy/images/versal-scobc-v1-ve2302i-revb-sdt-full/*.wic
 build/tmp/deploy/images/versal-scobc-v1-ve2302i-revb-sdt-full/sc-image-ramroot-versal-scobc-v1-ve2302i-revb-sdt-full-yyyyMMddHHmmss.wic
@@ -141,7 +145,7 @@ the latest build.
 
 === For Developer Grade
 
-[source,  bash]
+[source,console]
 ----
 $ kas build kas/scobc-v1-devgrade.yml
 ----
@@ -149,7 +153,7 @@ $ kas build kas/scobc-v1-devgrade.yml
 `build/tmp/deploy/images/versal-scobc-v1-ve2302e-revb-sdt-full/` will contain
 the generated image files.
 
-[source,  bash]
+[source,console]
 ----
 $ ls -1F build/tmp/deploy/images/versal-scobc-v1-ve2302e-revb-sdt-full/*.wic
 build/tmp/deploy/images/versal-scobc-v1-ve2302e-revb-sdt-full/sc-image-ramroot-versal-scobc-v1-ve2302e-revb-sdt-full-yyyyMMddHHmmss.wic
@@ -164,7 +168,7 @@ the latest build.
 To use the usual boot configuration, which mounts the root filesystem from
 the SD card, add `kas/targets/sc-image-minimal.yml` to the `kas` configuration.
 
-[source, bash]
+[source,console]
 ----
 $ kas build kas/scobc-v1.yml:kas/targets/sc-image-minimal.yml
 ----
@@ -172,7 +176,7 @@ $ kas build kas/scobc-v1.yml:kas/targets/sc-image-minimal.yml
 For a Developer Grade build, use the same target with the Developer Grade
 configuration.
 
-[source, bash]
+[source,console]
 ----
 $ kas build kas/scobc-v1-devgrade.yml:kas/targets/sc-image-minimal.yml
 ----
@@ -180,7 +184,7 @@ $ kas build kas/scobc-v1-devgrade.yml:kas/targets/sc-image-minimal.yml
 The Space Grade image is generated in
 `build/tmp/deploy/images/versal-scobc-v1-ve2302i-revb-sdt-full/`.
 
-[source, bash]
+[source,console]
 ----
 $ ls -1F build/tmp/deploy/images/versal-scobc-v1-ve2302i-revb-sdt-full/sc-image-minimal-*.wic
 build/tmp/deploy/images/versal-scobc-v1-ve2302i-revb-sdt-full/sc-image-minimal-versal-scobc-v1-ve2302i-revb-sdt-full-yyyyMMddHHmmss.wic
@@ -190,7 +194,7 @@ build/tmp/deploy/images/versal-scobc-v1-ve2302i-revb-sdt-full/sc-image-minimal-v
 The Developer Grade image is generated in
 `build/tmp/deploy/images/versal-scobc-v1-ve2302e-revb-sdt-full/`.
 
-[source, bash]
+[source,console]
 ----
 $ ls -1F build/tmp/deploy/images/versal-scobc-v1-ve2302e-revb-sdt-full/sc-image-minimal-*.wic
 build/tmp/deploy/images/versal-scobc-v1-ve2302e-revb-sdt-full/sc-image-minimal-versal-scobc-v1-ve2302e-revb-sdt-full-yyyyMMddHHmmss.wic

@@ -60,7 +60,7 @@ Example:
 
 [source,console]
 ----
-uv run kas build kas/scobc-v1-dualboot.yml
+$ uv run kas build kas/scobc-v1-dualboot.yml
 ----
 
 == Update bundle
@@ -71,15 +71,22 @@ Example:
 
 [source,console]
 ----
-uv run kas build kas/<board>-update-bundle.yml
+$ uv run kas build kas/<board>-update-bundle.yml
 ----
 
 On device:
 
 [source,console]
 ----
-sudo boot-to-golden
-rauc install bundle.raucb
+$ sudo boot-to-golden
+----
+
+Wait for the device to reboot into the golden system, then log in again before
+installing the bundle:
+
+[source,console]
+----
+$ rauc install bundle.raucb
 ----
 
 After installation the system reboots automatically.

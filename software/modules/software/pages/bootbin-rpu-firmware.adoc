@@ -3,7 +3,7 @@
 You can include an RPU executable in `boot.bin` by adding
 `kas/conf/rpu-firmware.yml` to the `kas` build configuration.
 
-[source,bash]
+[source,console]
 ----
 $ kas build kas/scobc-v1.yml:kas/conf/rpu-firmware.yml
 ----
@@ -45,7 +45,7 @@ To include a different RPU executable, set `RPU_FIRMWARE_URI` to the URI of
 the executable and `RPU_FIRMWARE_SHA256` to its SHA-256 checksum before
 running the build.
 
-[source,bash]
+[source,console]
 ----
 $ export RPU_FIRMWARE_URI="file:///absolute/path/to/rpu-firmware.elf"
 $ export RPU_FIRMWARE_SHA256="<SHA-256 checksum of rpu-firmware.elf>"

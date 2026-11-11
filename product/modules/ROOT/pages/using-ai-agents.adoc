@@ -8,7 +8,7 @@ searching the rendered site by hand.
 
 [source, console]
 ----
-git clone https://github.com/spacecubics/sc-docs-v1
+$ git clone https://github.com/spacecubics/sc-docs-v1
 ----
 
 The repository includes an `AGENTS.md` file that tells the agent how the manual is

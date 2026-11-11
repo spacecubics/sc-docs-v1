@@ -19,6 +19,7 @@ local_conf_header:
 
 Then, build the image with the override file.
 
+[source,console]
 ----
 $ kas build kas/scobc-v1.yml:override.local.yml
 ...
@@ -32,6 +33,7 @@ build/tmp/deploy/images/versal-scobc-v1-ve2302i-revb-sdt-full/sc-image-ramroot-v
 You can use `ip` command to assign an IP address. Once the device is
 up, you can use any network applications.
 
+[source,console]
 ----
 # ip addr flush dev end0
 # ip addr add 10.30.0.123/24 dev end0
@@ -43,6 +45,7 @@ up, you can use any network applications.
 
 If you have a USB memory, you can mount it like this:
 
+[source,console]
 ----
 # mount /dev/sda1 /mnt
 ----
@@ -53,18 +56,21 @@ In `sc-initramfs-image-dev`, you can use the `gpiod` tools to control GPIOs.
 
 === Set GPIO(`PMC_MIO12`)
 
+[source,console]
 ----
 # gpioset -c 1 12=1
 ----
 
 === Clear GPIO(`PMC_MIO12`)
 
+[source,console]
 ----
 # gpioset -c 1 12=0
 ----
 
 === Read GPIO(`PMC_MIO12`)
 
+[source,console]
 ----
 # gpioget -c 1 12
 active
@@ -76,6 +82,7 @@ It also has `libgpiod` python3 bindings.
 
 If Linux detected the eMMC, you can see the device file:
 
+[source,console]
 ----
 # ls /dev/mmcblk1
 /dev/mmcblk1
@@ -83,6 +90,7 @@ If Linux detected the eMMC, you can see the device file:
 
 If you want to make partitions on the eMMC, you can use `fdisk`:
 
+[source,console]
 ----
 # fdisk /dev/mmcblk1
 
@@ -111,6 +119,8 @@ Calling ioctl() to re-read partition table
 ----
 
 If you want to make a filesystem on the partition, you can use `mkfs`:
+
+[source,console]
 ----
 # mkfs.vfat /dev/mmcblk1p1
 ----
@@ -118,6 +128,7 @@ If you want to make a filesystem on the partition, you can use `mkfs`:
 If the device is formatted with a supported filesystem, you can mount
 and use it.
 
+[source,console]
 ----
 # mount /dev/mmcblk1p1 /mnt
 # df -h | grep mmcblk1
@@ -143,12 +154,14 @@ eMMC is in use can cause data loss or filesystem corruption.
 For example, if the eMMC partition is mounted at `/mnt` as shown above,
 unmount it before turning the power off:
 
+[source,console]
 ----
 # umount /mnt
 ----
 
 Turn the eMMC power off by unbinding the controller:
 
+[source,console]
 ----
 # echo f1050000.mmc > /sys/bus/platform/drivers/sdhci-arasan/unbind
 [90438.604347] mmc1: card 0001 removed
@@ -156,6 +169,7 @@ Turn the eMMC power off by unbinding the controller:
 
 Turn the eMMC power on again by binding the controller:
 
+[source,console]
 ----
 # echo f1050000.mmc > /sys/bus/platform/drivers/sdhci-arasan/bind
 [90463.084593] mmc1: SDHCI controller on f1050000.mmc [f1050000.mmc] using ADMA 64-bit
@@ -170,6 +184,7 @@ Turn the eMMC power on again by binding the controller:
 After Linux detects the eMMC again, check that its device file is available
 before mounting the filesystem again:
 
+[source,console]
 ----
 # ls /dev/mmcblk1
 /dev/mmcblk1
@@ -181,6 +196,7 @@ before mounting the filesystem again:
 It's the same as eMMC. If Linux detectec a SD card, you can see the
 device file:
 
+[source,console]
 ----
 # ls /dev/mmcblk0
 /dev/mmcblk0
@@ -194,6 +210,7 @@ device file:
 Under Linux, the boot memory and high reliability memory are MTD devices.
 If Linux detects the devices, they are displayed as follows:
 
+[source,console]
 ----
 # ls -1 /dev/mtd*
 /dev/mtd0
@@ -247,6 +264,7 @@ more info.
 
 === Write and read data
 
+[source,console]
 ----
 # echo "Boot memory" > /dev/mtdblock0
 # hexdump -C -n 32 /dev/mtdblock0
@@ -268,12 +286,14 @@ Only the Rev.A boot memory uses NOR flash. It must be erased before changing a
 bit from `0` to `1`. Erase all sectors before fully overwriting the memory. The
 following command erases all sectors of `/dev/mtd0`.
 
+[source,console]
 ----
 # flash_erase /dev/mtd0 0 0
 ----
 
 == RTC
 
+[source,console]
 ----
 # hwclock -s
 # cat /sys/class/rtc/rtc0/date

@@ -12,7 +12,7 @@ NOTE: Modifications to the Safety Processor logic by the user are not
 supported.
 It is recommended to always use the latest version of the firmware.
 
-[source, bash]
+[source,console]
 ----
 $ cd igloo2/tools
 $ make program_image
@@ -21,10 +21,9 @@ $ make program_image
 After running the command, verify that the process completes successfully by
 confirming output similar to the following log:
 
-[source, txt]
 ----
-$ mkdir -p ./log && echo "*" > ./log/.gitignore
-    FPExpress SCRIPT:script/program_image.tcl \
+mkdir -p ./log && echo "*" > ./log/.gitignore
+FPExpress SCRIPT:script/program_image.tcl \
     "SCRIPT_ARGS:../bitstream/sc_obc_spv1.job" \
     LOGFILE:./log/program_image.log
 Console Mode = Software Version: 2025.1.0.14

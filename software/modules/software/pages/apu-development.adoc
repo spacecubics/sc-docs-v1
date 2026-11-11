@@ -7,7 +7,7 @@ The procedures in this section assume that the target is running a development
 image. Build the image with `kas/conf/development.yml` to enable root login and
 passwordless file transfer for development.
 
-[source,bash]
+[source,console]
 ----
 $ uv run kas build --force-checkout kas/scobc-v1.yml:kas/conf/development.yml
 ----
@@ -18,7 +18,7 @@ $ uv run kas build --force-checkout kas/scobc-v1.yml:kas/conf/development.yml
 Build and install the Yocto SDK before building individual components such as
 the Linux kernel, U-Boot, or applications outside the full Yocto build.
 
-[source,bash]
+[source,console]
 ----
 $ uv run kas build --force-checkout kas/scobc-v1.yml -c populate_sdk
 $ ./build/tmp/deploy/sdk/petalinux-glibc-x86_64-sc-image-minimal-cortexa72-cortexa53-versal-scobc-v1-ve2302i-revb-sdt-full-toolchain-2025.2.sh
@@ -46,7 +46,7 @@ script as described in <<create_yocto_sdk>>.
 
 Set the `linux-xlnx` base revision used by the Yocto release.
 
-[source,bash]
+[source,console]
 ----
 $ export LINUX_XLNX_BASE_REV=31626ef92ff11f9d3dee01926720572666fcc65a
 ----
@@ -56,7 +56,7 @@ For `v2025.2`, use commit
 
 Clone `linux-xlnx` and check out the revision used by the Yocto release.
 
-[source,bash]
+[source,console]
 ----
 $ git clone https://github.com/Xilinx/linux-xlnx.git
 $ cd linux-xlnx
@@ -66,7 +66,7 @@ $ git switch -c work/kernel-sample
 
 Create a patch from the Yocto-patched kernel source tree.
 
-[source,bash]
+[source,console]
 ----
 $ cd /path/to/meta-scobc/build/tmp/work-shared/versal-scobc-v1-ve2302i-revb-sdt-full/kernel-source
 $ git diff --binary "$LINUX_XLNX_BASE_REV" -- > /tmp/linux-xlnx-yocto.patch
@@ -74,7 +74,7 @@ $ git diff --binary "$LINUX_XLNX_BASE_REV" -- > /tmp/linux-xlnx-yocto.patch
 
 Apply the generated patch to the external kernel source tree.
 
-[source,bash]
+[source,console]
 ----
 $ cd /path/to/linux-xlnx
 $ git apply --check /tmp/linux-xlnx-yocto.patch
@@ -84,7 +84,7 @@ $ git commit -m "Apply Yocto kernel patch set"
 
 Prepare an output directory and copy the Yocto-generated kernel configuration.
 
-[source,bash]
+[source,console]
 ----
 $ export OUT=<path-to-out>
 $ mkdir -p "$OUT"
@@ -94,28 +94,28 @@ $ cp /path/to/meta-scobc/build/tmp/work/versal_scobc_v1_ve2302i_revb_sdt_full-am
 To change the kernel release string, set `LOCALVERSION` in `.config` before
 running `olddefconfig`. For example:
 
-[source,bash]
+[source,console]
 ----
 $ scripts/config --file "$OUT/.config" --set-str LOCALVERSION "-manual"
 ----
 
 Update the kernel configuration.
 
-[source,bash]
+[source,console]
 ----
 $ make O="$OUT" olddefconfig
 ----
 
 Build the kernel image and kernel modules.
 
-[source,bash]
+[source,console]
 ----
 $ make O="$OUT" -j"$(nproc)" Image modules
 ----
 
 Install the kernel modules into a staging directory.
 
-[source,bash]
+[source,console]
 ----
 $ export KREL=$(make -s --no-print-directory O="$OUT" kernelrelease)
 $ make O="$OUT" INSTALL_MOD_PATH="$OUT/modinst" modules_install
@@ -132,7 +132,7 @@ the matching kernel modules to apply the locally built kernel to the target.
 
 Set the target SSH destination on the build host.
 
-[source,bash]
+[source,console]
 ----
 $ export TARGET=root@<target-ip>
 ----
@@ -140,10 +140,14 @@ $ export TARGET=root@<target-ip>
 Copy the new kernel image to the boot partition and replace the active image.
 The existing image is kept as `Image.prev`.
 
-[source,bash]
+[source,console]
 ----
 $ scp "$OUT/arch/arm64/boot/Image" "$TARGET:/boot/Image.new"
-$ ssh "$TARGET" '
+----
+
+[source,bash]
+----
+ssh "$TARGET" '
     set -e
     cd /boot
     cp -a Image Image.prev
@@ -154,7 +158,7 @@ $ ssh "$TARGET" '
 
 Install the matching kernel modules from the staging directory.
 
-[source,bash]
+[source,console]
 ----
 $ rsync -a --delete \
     "$OUT/modinst/lib/modules/$KREL/" \
@@ -163,14 +167,14 @@ $ rsync -a --delete \
 
 Update the module dependency files on the target.
 
-[source,bash]
+[source,console]
 ----
 $ ssh "$TARGET" "depmod -a '$KREL'; sync"
 ----
 
 Reboot the target.
 
-[source,bash]
+[source,console]
 ----
 $ ssh "$TARGET" reboot
 ----
@@ -178,7 +182,7 @@ $ ssh "$TARGET" reboot
 After rebooting, confirm that the running kernel release matches the built
 kernel.
 
-[source,bash]
+[source,console]
 ----
 $ ssh "$TARGET" uname -r
 ----

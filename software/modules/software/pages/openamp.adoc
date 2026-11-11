@@ -10,7 +10,7 @@ The `openamp_rsc_table` sample is supported by the
 `scobc_v1/versal_rpu` board target. From the Zephyr workspace, build the
 sample with the following command:
 
-[source,bash]
+[source,console]
 ----
 $ west build -p always -b scobc_v1/versal_rpu zephyr/samples/subsys/ipc/openamp_rsc_table
 ----
@@ -27,7 +27,7 @@ build/zephyr/zephyr_openamp_rsc_table.elf
 Add `kas/conf/openamp.yml` to the `kas` build configuration to enable OpenAMP
 support in the APU Linux image:
 
-[source,bash]
+[source,console]
 ----
 $ kas build kas/scobc-v1.yml:kas/conf/openamp.yml
 ----
@@ -41,7 +41,7 @@ xref:bootbin-rpu-firmware.adoc[] to include the generated ELF file in
 Set the firmware URI to the absolute path of the generated ELF file and set
 its SHA-256 checksum:
 
-[source,bash]
+[source,console]
 ----
 $ export RPU_FIRMWARE_URI="file:///absolute/path/to/build/zephyr/zephyr_openamp_rsc_table.elf"
 $ export RPU_FIRMWARE_SHA256="<SHA-256 checksum of zephyr_openamp_rsc_table.elf>"
@@ -50,7 +50,7 @@ $ export RPU_FIRMWARE_SHA256="<SHA-256 checksum of zephyr_openamp_rsc_table.elf>
 Add both `kas/conf/openamp.yml` and `kas/conf/rpu-firmware.yml` to the build
 configuration:
 
-[source,bash]
+[source,console]
 ----
 $ kas build kas/scobc-v1.yml:kas/conf/openamp.yml:kas/conf/rpu-firmware.yml
 ----
